@@ -10,3 +10,5 @@
 *.ipr
 *.out
 .gradle/
+*.iml
+*.iws
