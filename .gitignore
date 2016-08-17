@@ -12,3 +12,4 @@
 .gradle/
 *.iml
 *.iws
+out/
