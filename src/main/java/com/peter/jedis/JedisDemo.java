@@ -5,6 +5,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 public class JedisDemo {
     private static final int MAX_IDLE = 8;
     private static final int MAX_TOTAL=8;
@@ -22,7 +26,7 @@ public class JedisDemo {
         config.setTestOnReturn(true);
         pool = new JedisPool(config,HOST,PORT,TIMEOUT);
     }
-    public static void testStrValue(){
+    public void testStrValue(){
         Jedis conn = pool.getResource();
         String key = "peter_test";
         String value = "hello world";
@@ -31,8 +35,39 @@ public class JedisDemo {
         conn.del(key);
         conn.close();
     }
-
-    public static void main(String[] args) {
-        testStrValue();
+    public void addSets(){
+        String key = "members";
+        String member1 = "member1";
+        String member2 = "member2";
+        String member3 = "member3";
+        Jedis jedis = pool.getResource();
+        jedis.sadd(key,member1,member2,member3);
+        Set<String> members = jedis.smembers(key);
+        for (String member: members){
+            System.out.println(member);
+        }
+        if(jedis != null){
+            jedis.close();
+        }
     }
+    public void addHash(){
+        String key = "redisHash";
+        Map<String,String> map = new HashMap<>();
+        map.put("name","java");
+        map.put("domain","www.java.com");
+        map.put("description","learn how to programe in java");
+        Jedis jedis = pool.getResource();
+        jedis.hmset(key,map);
+        Map<String,String> retreveMap = jedis.hgetAll(key);
+        for (String keyMap : retreveMap.keySet()){
+            System.out.println(keyMap+" " + retreveMap.get(keyMap));
+        }
+        jedis.close();
+    }
+//    public static void main(String[] args) {
+//        JedisDemo jedisDemo = new JedisDemo();
+//        jedisDemo.testStrValue();
+//        jedisDemo.addSets();
+//        jedisDemo.addHash();
+//    }
 }
