@@ -9,9 +9,5 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 //@Configuration
 //@EnableTransactionManagement
 //@EnableJpaRepositories(basePackageClasses = ApplicationMain.class)
-public class JpaConfig implements TransactionManagementConfigurer{
-    @Override
-    public PlatformTransactionManager annotationDrivenTransactionManager() {
-        return null;
-    }
+public class JpaConfig {
 }

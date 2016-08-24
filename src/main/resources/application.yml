@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: local
+logging:
+  config: classpath:logback.xml
+---
+spring:
+  profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/H5APPSTORE
+    username: harper1
+    password: harper1
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    host: 192.168.99.100
+    port: 32768
+    password: redis
+  server:
+    port:8080
