@@ -21,16 +21,16 @@ import java.lang.reflect.Method;
 @Configuration
 @EnableCaching
 public class RedisConfig{
+
     @Autowired
     private RedisSetting redisSetting;
 
     @Bean
     public JedisConnectionFactory redisConnectionFactory(){
         JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
-        redisConnectionFactory().setHostName(redisSetting.getHost());
+        connectionFactory.setHostName(redisSetting.getHost());
         connectionFactory.setPort(redisSetting.getPort());
         connectionFactory.setPassword(redisSetting.getPassword());
-//        redisConnectionFactory().setTimeout(redisSetting.getTimeout());
         connectionFactory.setUsePool(true);
         return connectionFactory;
     }
@@ -62,5 +62,13 @@ public class RedisConfig{
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         return redisTemplate;
+    }
+
+    public RedisSetting getRedisSetting() {
+        return redisSetting;
+    }
+
+    public void setRedisSetting(RedisSetting redisSetting) {
+        this.redisSetting = redisSetting;
     }
 }
