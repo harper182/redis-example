@@ -15,6 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 import java.lang.reflect.Method;
 
@@ -32,6 +33,11 @@ public class RedisConfig{
         connectionFactory.setPort(redisSetting.getPort());
         connectionFactory.setPassword(redisSetting.getPassword());
         connectionFactory.setUsePool(true);
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxWaitMillis(redisSetting.getMaxWait());
+        poolConfig.setMaxIdle(redisSetting.getMaxIdle());
+        poolConfig.setMinIdle(redisSetting.getMinIdle());
+        connectionFactory.setPoolConfig(poolConfig);
         return connectionFactory;
     }
 
